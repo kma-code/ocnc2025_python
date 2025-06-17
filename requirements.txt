@@ -1,0 +1,16 @@
+# math & plotting
+numpy==1.26.4
+matplotlib
+
+# jupyter notebooks
+ipykernel
+
+# multiprocessing
+multiprocess
+
+# workflow
+tqdm
+
+# torch
+torch
+torchvision
