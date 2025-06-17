@@ -12,5 +12,5 @@ multiprocess
 tqdm
 
 # torch
-torch
+pytorch
 torchvision
