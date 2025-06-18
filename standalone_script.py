@@ -107,14 +107,15 @@ if __name__ == '__main__':
 
     voltages_arr, spikes_arr = simulate_network(population, params)
 
-    logging.info(f"Finished simulation")
+    logging.info(f"Finished simulation in {time.time() - t0} seconds.")
 
-    # show only last 1000 steps
+    # show only first 1000 nerons and last 1000 steps
     x_range = (-1000,-1)
-    spikes_arr = spikes_arr[x_range[0]:x_range[1]]
+    y_range = (0,1000)
+    spikes_arr = spikes_arr[x_range[0]:x_range[1], y_range[0]:y_range[1]]
 
     fig = plt.figure()
-    for i in range(n_neurons):
+    for i in range(y_range[1]-y_range[0]):
         spike_times = spikes_arr[x_range[0]:x_range[1],i].nonzero()[0]
         plt.scatter(spike_times, i*np.ones_like(spike_times), marker='.', c='black')
     plt.xlabel('Time step')
