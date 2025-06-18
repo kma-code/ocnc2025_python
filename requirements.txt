@@ -6,10 +6,11 @@ matplotlib
 ipykernel
 
 # multiprocessing
-multiprocess
+multiprocessing
 
 # workflow
 tqdm
+pyyaml
 
 # torch
 pytorch
