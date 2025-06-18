@@ -6,6 +6,7 @@ from pathlib import Path
 import logging              # handy logging tool for debugging and info
 import time                 # to measure time of execution
 import multiprocess as mp   # for multiprocessing
+import functools
 
 logging.basicConfig(format='Runner -- %(levelname)s: %(message)s',
                     level=logging.INFO)
@@ -86,6 +87,28 @@ def simulate_network(population, params):
     return voltages_arr, spikes_arr
 
 
+def simulate_parallel_networks(pop_list, params, N_PROCESSES):
+    """
+        Simulates a list of populations
+        for n_steps defined in params
+        using multiprocessing
+    """
+
+    logging.info(f'Running {N_PROCESSES} subpopulations in parallel')
+
+    partial_run = functools.partial(simulate_network, params=params)
+
+    with mp.Pool(N_PROCESSES) as pool:
+        output = pool.map(partial_run, pop_list)
+        pool.close()
+
+    # then we need to bring the output into the right shape
+    # by combining all subpopulations
+    output = np.array(output)
+    voltages_arr, spikes_arr = output.reshape(2, params["n_steps"], -1)
+
+    return voltages_arr, spikes_arr
+
 if __name__ == '__main__':
 
     # keep a time stamp to see how long the sims take
@@ -96,16 +119,19 @@ if __name__ == '__main__':
     for p in params:
         logging.info(f"{p}: {params[p]}")
 
+    # how many processes to divide into
+    N_PROCESSES = 4
+    params["n_neurons"] = params["n_neurons"] // N_PROCESSES
     n_neurons = params["n_neurons"]
 
     # define the population
-    logging.info(f"Defining population of {n_neurons} neurons")
-    population = ExpLIF_population(params)
+    logging.info(f"Defining {N_PROCESSES} subpopulation of {n_neurons} neurons each")
+    pop_list = [ExpLIF_population(params) for _ in range(N_PROCESSES)]
 
     # run simulation
     logging.info(f"Starting simulation")
 
-    voltages_arr, spikes_arr = simulate_network(population, params)
+    voltages_arr, spikes_arr = simulate_parallel_networks(pop_list, params, N_PROCESSES)
 
     logging.info(f"Finished simulation")
 
