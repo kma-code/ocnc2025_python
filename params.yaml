@@ -1,0 +1,17 @@
+---
+# typical neuron parameters
+V_th: -55.             # spike threshold [mV]
+V_reset : -75.         # reset potential [mV]
+tau_m   : 10.          # membrane time constant [ms]
+g_L     : 10.          # leak conductance [nS]
+V_init  : -65.         # initial potential [mV]
+V_L     : -75.         # leak reversal potential [mV]
+tau_ref    : 2.        # refractory time (ms)
+dt : .1                # Simulation time step [ms]
+DeltaT : 10.0          # sharpness of exponential peak
+V_exp_trigger : -55.   # threshold for exponential depolarization [mV]
+V_th : 0               # new reset threshold [mV]
+n_neurons : 1_000      # how many neurons to simulate
+n_steps : 500_000      # how many time steps to simulate
+mean_I: 300            # mean of injected current
+std_I: 300             # std of injected current
