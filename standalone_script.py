@@ -120,7 +120,7 @@ if __name__ == '__main__':
         logging.info(f"{p}: {params[p]}")
 
     # how many processes to divide into
-    N_PROCESSES = 4
+    N_PROCESSES = 10
     params["n_neurons"] = params["n_neurons"] // N_PROCESSES
     n_neurons = params["n_neurons"]
 
@@ -133,14 +133,16 @@ if __name__ == '__main__':
 
     voltages_arr, spikes_arr = simulate_parallel_networks(pop_list, params, N_PROCESSES)
 
-    logging.info(f"Finished simulation")
 
-    # show only last 1000 steps
+    logging.info(f"Finished simulation in {time.time() - t0} seconds.")
+
+    # show only first 1000 nerons and last 1000 steps
     x_range = (-1000,-1)
-    spikes_arr = spikes_arr[x_range[0]:x_range[1]]
+    y_range = (0,1000)
+    spikes_arr = spikes_arr[x_range[0]:x_range[1], y_range[0]:y_range[1]]
 
     fig = plt.figure()
-    for i in range(n_neurons):
+    for i in range(y_range[1]-y_range[0]):
         spike_times = spikes_arr[x_range[0]:x_range[1],i].nonzero()[0]
         plt.scatter(spike_times, i*np.ones_like(spike_times), marker='.', c='black')
     plt.xlabel('Time step')
