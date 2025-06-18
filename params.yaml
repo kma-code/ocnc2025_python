@@ -11,7 +11,7 @@ dt : .1                # Simulation time step [ms]
 DeltaT : 10.0          # sharpness of exponential peak
 V_exp_trigger : -55.   # threshold for exponential depolarization [mV]
 V_th : 0               # new reset threshold [mV]
-n_neurons : 50_000     # how many neurons to simulate
-n_steps : 10_000       # how many time steps to simulate
+n_neurons : 1_000      # how many neurons to simulate
+n_steps : 500_000      # how many time steps to simulate
 mean_I: 300            # mean of injected current
 std_I: 300             # std of injected current
