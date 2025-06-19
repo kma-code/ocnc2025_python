@@ -6,7 +6,7 @@ matplotlib
 ipykernel
 
 # multiprocessing
-multiprocessing
+multiprocess
 
 # workflow
 tqdm
